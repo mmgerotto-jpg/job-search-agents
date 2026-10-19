@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+estado.json
+funil.yaml
+perfil_triagem.md
+saida/
+criterios.yaml
+watchlist.yaml
+fatos.yaml

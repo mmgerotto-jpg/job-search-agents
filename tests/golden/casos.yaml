@@ -1,0 +1,211 @@
+# Casos sinteticos (empresa Foo/Acme). Toda regra nova ganha um caso aqui.
+- nome: Martech pelo produto, empresa desconhecida
+  vaga:
+    empresa: Acme
+    titulo: Customer Success Manager, Enterprise
+    local: Remote - Brazil
+    descricao: We build a marketing automation platform. Our martech customers run cross-channel messaging. 7+ years.
+  espera:
+    prioridade: DESCARTAR
+    regra: martech_produto
+- nome: E-Verify no corpo com local ambiguo vira EUA remoto (MEDIA, nunca ALTA)
+  vaga:
+    empresa: Foo
+    titulo: Deployment Lead
+    local: Remote
+    descricao: Must be eligible to work in the US. Employer participates in E-Verify. Enterprise AI agents deployment and implementation. 8+ years.
+  espera:
+    prioridade: MEDIA
+    geografia: eua
+- nome: MBA obrigatório de verdade
+  vaga:
+    empresa: Foo
+    titulo: Strategy Manager
+    local: São Paulo, Brazil
+    descricao: An MBA is required. 8+ years of experience.
+  espera:
+    prioridade: DESCARTAR
+    regra: mba_obrigatorio
+- nome: Staff com coaching e sem direct reports (NÃO elimina)
+  vaga:
+    empresa: Foo
+    titulo: Staff Deployment Strategist
+    local: Remote - Brazil
+    descricao: Coach the team and act as a senior sponsor. This role has no direct reports. 8-10+ years of experience. Enterprise AI agents implementation.
+  espera:
+    min: MEDIA
+- nome: Analyst é junior
+  vaga:
+    empresa: Foo
+    titulo: Business Operations Analyst
+    local: São Paulo, Brazil
+    descricao: Support the team.
+  espera:
+    prioridade: DESCARTAR
+    regra: nivel_junior
+- nome: Director descarta
+  vaga:
+    empresa: Foo
+    titulo: Director, Strategy Manager Office
+    local: São Paulo, Brazil
+    descricao: Own the P&L.
+  espera:
+    prioridade: DESCARTAR
+    regra: nivel_diretor
+- nome: Chief of Staff administrativo
+  vaga:
+    empresa: Foo
+    titulo: Chief of Staff
+    local: São Paulo, Brazil
+    descricao: Calendar management, travel arrangements and expense reports for the CEO.
+  espera:
+    prioridade: DESCARTAR
+    regra: cos_administrativo
+- nome: London na descrição não bloqueia vaga do Brasil
+  vaga:
+    empresa: Foo
+    titulo: Implementation Manager
+    local: São Paulo, Brazil
+    descricao: Our London team supports enterprise onboarding. Payments. 8+ years.
+  espera:
+    min: MEDIA
+- nome: UK sem patrocínio
+  vaga:
+    empresa: Foo
+    titulo: Engagement Manager
+    local: London, United Kingdom
+    descricao: Enterprise consulting. 8+ years.
+  espera:
+    prioridade: DESCARTAR
+    regra: uk_sem_patrocinio
+- nome: Título fora das trilhas
+  vaga:
+    empresa: Foo
+    titulo: Senior Backend Engineer
+    local: Remote
+    descricao: Python and Go.
+  espera:
+    prioridade: IGNORAR
+- nome: EUA presencial
+  vaga:
+    empresa: Foo
+    titulo: Implementation Manager
+    local: New York, NY
+    descricao: Enterprise implementation. 8+ years.
+  espera:
+    prioridade: DESCARTAR
+    regra: geografia
+- nome: Dubai é geografia forte (ALTA)
+  vaga:
+    empresa: Foo
+    titulo: Deployment Strategist
+    local: Dubai, United Arab Emirates
+    descricao: Enterprise AI agents deployment and implementation, governance and transformation. 8+ years.
+  espera:
+    prioridade: ALTA
+- nome: Doha, Qatar é geografia forte
+  vaga:
+    empresa: Foo
+    titulo: Engagement Manager
+    local: Doha, Qatar
+    descricao: Enterprise AI deployment and implementation, operating model, fintech. 8+ years.
+  espera:
+    min: MEDIA
+- nome: Abu Dhabi não cai em precisa_estar_no_local
+  vaga:
+    empresa: Foo
+    titulo: Strategy Manager
+    local: Abu Dhabi, UAE
+    descricao: Must be based in Abu Dhabi. Corporate strategy and transformation governance. 8+ years.
+  espera:
+    min: MEDIA
+- nome: Clearance americana elimina
+  vaga:
+    empresa: Foo
+    titulo: Deployment Strategist
+    local: Dubai, UAE
+    descricao: Must hold an active security clearance. Enterprise AI deployment. 8+ years.
+  espera:
+    prioridade: DESCARTAR
+    regra: clearance_eua
+- nome: Idioma com a palavra language no meio (Dutch language fluency)
+  vaga:
+    empresa: Foo
+    titulo: Engagement Manager
+    local: Amsterdam, Netherlands
+    descricao: Enterprise deployment. 8+ years. Dutch language fluency is expected.
+  espera:
+    prioridade: DESCARTAR
+    regra: idioma
+- nome: CSM enterprise, Remote - US, vira MEDIA com aviso (nunca ALTA)
+  vaga:
+    empresa: Foo
+    titulo: Enterprise Customer Success Manager
+    local: Remote - US
+    descricao: Own enterprise accounts, onboarding and renewals. SaaS. 7+ years. Authorized to work in the US.
+  espera:
+    prioridade: MEDIA
+    geografia: eua
+- nome: CSM generico sem sinais na descricao, United States (Remote), ainda chega a MEDIA
+  vaga:
+    empresa: Foo
+    titulo: Customer Success Manager
+    local: United States (Remote)
+    descricao: Manage customer relationships. 6+ years of experience.
+  espera:
+    prioridade: MEDIA
+    geografia: eua
+- nome: Remote, US-based only no texto (local ambiguo)
+  vaga:
+    empresa: Foo
+    titulo: Customer Success Manager
+    local: Remote
+    descricao: This role is US-based only. Enterprise accounts, onboarding, implementation. 7+ years.
+  espera:
+    prioridade: MEDIA
+    geografia: eua
+- nome: EUA presencial continua bloqueado
+  vaga:
+    empresa: Foo
+    titulo: Customer Success Manager
+    local: Austin, TX
+    descricao: On-site in our Austin office. Enterprise accounts. 7+ years.
+  espera:
+    prioridade: DESCARTAR
+    regra: geografia
+- nome: EUA remoto com clearance americana continua eliminado
+  vaga:
+    empresa: Foo
+    titulo: Customer Success Manager
+    local: Remote - US
+    descricao: Requires an active security clearance and U.S. citizenship. Enterprise accounts. 8+ years.
+  espera:
+    prioridade: DESCARTAR
+    regra: clearance_eua
+- nome: Remote - US or Brazil nao e rebaixado (geografia forte)
+  vaga:
+    empresa: Foo
+    titulo: AI Deployment Lead
+    local: Remote - US or Brazil
+    descricao: Lead enterprise deployments of AI agents for insurance claims. Own implementation from onboarding to results. 7+ years of experience with large accounts. Operating model and governance across
+      clients. No direct reports.
+  espera:
+    prioridade: ALTA
+- nome: EUA remoto com Director no titulo continua eliminado
+  vaga:
+    empresa: Foo
+    titulo: Director, Customer Success Manager Office
+    local: Remote - US
+    descricao: Own the P&L and a team of 20. Enterprise accounts. 10+ years.
+  espera:
+    prioridade: DESCARTAR
+    regra: nivel_diretor
+- nome: Canada remoto continua bloqueado (so EUA entrou)
+  vaga:
+    empresa: Foo
+    titulo: Customer Success Manager
+    local: Remote - Canada
+    descricao: Enterprise accounts, onboarding, renewals. 7+ years.
+  espera:
+    prioridade: DESCARTAR
+    regra: geografia

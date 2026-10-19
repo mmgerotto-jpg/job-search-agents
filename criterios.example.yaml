@@ -1,0 +1,259 @@
+# EXEMPLO. Copie para criterios.yaml e adapte (geografia, trilhas, eliminatorios, bonus). Os valores abaixo refletem uma busca real; troque pelos seus.
+# Critérios de busca. ÚNICA fonte: CRITERIOS_DE_BUSCA.md é gerado daqui (python -m radar.render_criterios).
+# Regex casam em texto MINÚSCULO e SEM ACENTO. Escreva "sao paulo", não "São Paulo".
+# Depois de editar:  python -m radar.varrer --validar   e   python -m radar.varrer --explicar <url|id>
+versao: 1
+
+limiares:
+  alta: 9              # score mínimo para ALTA (e só com geografia forte)
+  media: 5
+  max_triagens_por_rodada: 5
+  max_idade_dias: 30   # vaga publicada há mais que isso é ignorada (quando a fonte informa a data)
+  notion_incluir_baixa: false
+  max_media_notion_por_rodada: 25   # o resto volta nas rodadas seguintes (evita inundar o Notion)
+  max_eua_notion_por_rodada: 15     # teto proprio das vagas remotas dos EUA (entram na mesma fila de MEDIA; o volume de CS dos EUA e grande)
+
+# Título casa por FRASE com fronteira de palavra. "Staff X" e "Senior X" já casam com "X".
+trilhas:
+  A:
+    nome: Deployment / Forward Deployed / Customer Success enterprise em IA
+    pontos: 4
+    titulos:
+      - deployment strategist
+      - forward deployed
+      - deployment lead
+      - deployment manager
+      - client partner
+      - customer success manager
+      - enterprise customer success
+      - implementation manager
+      - implementation lead
+      - solutions consultant
+      - solutions architect
+      - customer solutions manager
+      - professional services manager
+      - delivery manager
+      - delivery lead
+      - engagement manager
+      - engagement lead
+      - value engineer
+      - value realization
+      - value delivery lead
+      - post-sales
+      - technical account manager
+      - partner solutions manager
+      - head of customer success
+      - head of delivery
+      - solutions lead
+      - technical program manager
+      - gerente de sucesso do cliente
+      - head de customer success
+      - gerente de implantacao
+      - lider de implantacao
+      - gerente de entrega
+  B:
+    nome: Estratégia corporativa e de negócio
+    pontos: 3
+    titulos:
+      - strategy manager
+      - strategy and operations
+      - strategy & operations
+      - strategy lead
+      - corporate strategy
+      - business strategy
+      - business operations
+      - bizops
+      - corporate development
+      - transformation manager
+      - transformation lead
+      - head of strategic projects
+      - strategic projects
+      - special projects lead
+      - gtm strategy
+      - commercial strategy
+      - pmo lead
+      - program director
+      - principal strategist
+      - business operations expert
+      - gerente de estrategia
+      - gerente de planejamento estrategico
+      - gerente de novos negocios
+      - gerente de transformacao
+  C:
+    nome: Chief of Staff
+    pontos: 3
+    titulos:
+      - chief of staff
+      - business partner to the ceo
+      - executive business partner
+
+# Pontos extras
+nivel_alvo:                     # Staff/Principal/Lead é a faixa dele
+  pontos: 1
+  titulos: [staff, principal, lead]
+
+sinais_descricao:               # o que uma boa vaga costuma dizer (máx. +3 no total)
+  teto: 3
+  termos:
+    - "ai agents?|agentic|llm|generative ai"
+    - "deployment|implementation|onboarding"
+    - "enterprise|fortune 500|large accounts?"
+    - "pmo|transformation|operating model|governance"
+    - "insurance|claims|seguros|sinistro|healthcare|fintech|payments|marketplace|delivery|credito|credit|agribusiness|agro"
+
+bonus:
+  fundos_parceiros:             # também marcado no watchlist (campo fundo:)
+    pontos: 3
+    empresas: [example fund portfolio company]
+  alumni:
+    pontos: 2
+    empresas: [example alumni employer]
+  ecossistema_golfo:
+    pontos: 1
+    empresas: [g42, core42, presight, ai71, hub71, mubadala, adq, careem]
+
+penalidades:
+  - id: python_pesado
+    pontos: -2
+    motivo: "Python citado várias vezes: versão júnior/técnica da função"
+    escopo: descricao
+    padrao: "\\bpython\\b"
+    min_ocorrencias: 3
+  - id: engenharia_no_titulo
+    pontos: -4
+    motivo: "Título de engenharia/desenvolvimento: gap de código dele"
+    escopo: titulo
+    padrao: "software engineer|developer|desenvolvedor|engenheiro de software|forward deployed engineer|enterprise architect"
+  - id: arquiteto_tecnico
+    pontos: -3
+    motivo: "Solutions architect tecnico (Spark, Python, cloud, ML): gap de codigo dele"
+    escopo: descricao
+    padrao: "spark|python|scala|kubernetes|terraform|data warehouse|machine learning|sql tuning|\\bapis?\\b"
+    min_ocorrencias: 5
+  - id: pre_vendas
+    pontos: -3
+    motivo: "Pre-vendas / sales engineer: outro trabalho que nao deployment"
+    escopo: titulo
+    padrao: "pre-?sales|sales engineer|solutions engineer"
+  - id: martech_analytics
+    pontos: -3
+    motivo: "Amplitude/Mixpanel: só vale se não for marketing analytics"
+    escopo: empresa
+    padrao: "amplitude|mixpanel"
+  - id: gestao_leve
+    pontos: -2
+    motivo: "Menciona liderar/desenvolver time: confira se é gestão formal"
+    escopo: descricao
+    padrao: "manage a team|lead a team|build (and|&) (lead|grow) the team|grow and develop the team"
+  - id: gestao_direta
+    pontos: 0
+    motivo: "Gestão formal (direct reports/performance reviews): gap real, mas NAO elimina; conferir caso a caso (decisão dele, 09/10/2026)"
+    escopo: descricao
+    padrao: "direct reports|performance reviews?|hiring and firing|manage a team of \\d+|reportes diretos|avaliacao de desempenho"
+    excecao: "no direct reports|without direct reports|not (have|manage) direct reports|does not (have|include|manage)"
+    janela: 60
+
+# Geografia. aceita_forte: pode ser ALTA. aceita_fraca: só MÉDIA (Europa: só com canal humano).
+# eua_remoto: vaga REMOTA com local nos EUA entra como MÉDIA (nunca ALTA) com o aviso "visto a checar depois".
+#   Decisão dele, 09/10/2026: pegar antes, checar visto/autorização de trabalho depois. EUA presencial continua bloqueado.
+# bloqueia: descarta, exceto se aceita_forte também casar ("Remote - US or Brazil").
+geografia:
+  aceita_forte:
+    pontos: 2
+    padrao: "brazil|brasil|sao paulo|latam|latin america|americas|worldwide|global|anywhere|dubai|abu dhabi|uae|emirates|united arab|qatar|doha|^remote$|^remoto$|remote \\(?brazil|remoto"
+  aceita_fraca:
+    pontos: 0
+    padrao: "portugal|lisbon|lisboa|spain|madrid|barcelona|italy|milan|rome|germany|berlin|netherlands|amsterdam|france|paris|ireland|dublin|europe|emea|eu\\b|united kingdom|london|singapore"
+  eua_remoto:
+    pontos: 2           # mesmo peso da geografia forte no score, mas o teto da prioridade é MEDIA
+    # tokens de local nos EUA; a vaga so entra se tambem disser remoto (nos dois sentidos, ate 40 caracteres de distancia)
+    eua: "united states|\\busa\\b|\\bu\\.s\\.|\\bus\\b|north america|new york|san francisco|california|texas|seattle|boston|chicago|atlanta|denver|austin|washington|,\\s*(?:dc|hi|ne|co|md|oh|fl|ny|tx|va|wa|ma|il|ga|nc|az|pa|nj|mn|ut|tn|mi|mo|wi|sc|ky|ct|ia|ks|nv|nm|nh|ri|vt|wv|mt|nd|sd|ak|wy)\\b"
+    remoto: "remote|remoto|work from home|anywhere in the (?:us|u\\.s\\.|united states)|virtual"
+    # texto da descricao que mostra que o remoto e "de dentro dos EUA": rebaixa um local ambiguo ("Remote") para eua_remoto
+    texto: "remote\\s*[-–(,:/]\\s*(us|usa|u\\.s\\.|united states)\\b|us[- ]based only|e-verify|must (reside|be located|be based) in the (us|u\\.s\\.|united states)|authorized to work in the (us|united states)|eligible to work in the (us|u\\.s\\.|united states)|401\\(?k\\)?"
+    # foco: dentro do teto max_eua_notion_por_rodada, titulos que casam aqui entram primeiro (ele busca principalmente CS nos EUA)
+    foco_titulos: "customer success|client success|csm|client partner|customer solutions|customer experience|customer onboarding|post-sales|account management"
+    # se o LOCAL ja diz isso, o remoto nao e so dos EUA e o texto acima nao rebaixa
+    local_explicito: "brazil|brasil|sao paulo|latam|latin america|worldwide|global|anywhere in the world|dubai|abu dhabi|uae|emirates|qatar|doha"
+  bloqueia:
+    padrao: "united states|\\busa\\b|\\bu\\.s\\.|\\bus\\b|new york|san francisco|california|texas|seattle|boston|chicago|atlanta|denver|austin|canada|toronto|vancouver|india|philippines|australia|china|japan|korea|nigeria|kenya|south africa|washington|,\\s*(?:dc|hi|ne|co|md|oh|fl|ny|tx|va|wa|ma|il|ga|nc|az|pa|nj|mn|ut|tn|mi|mo|wi|sc|ky|ct|ia|ks|nv|nm|nh|ri|vt|wv|mt|nd|sd|ak|wy)\\b|mexico|colombia|argentina|chile|peru|bogota|buenos aires|guadalajara|costa rica|uruguay"
+
+eliminatorios:
+  - id: empresa_descartada
+    motivo: "Empresa descartada por ele (feedback ruim de conhecidos). Para reabrir, tire da lista"
+    escopo: empresa
+    padrao: "\b(example-company-to-skip)\b"
+  - id: martech_empresa
+    motivo: "Empresa de martech/adtech (olhe o produto, não o cargo)"
+    escopo: empresa
+    padrao: "\\b(braze|iterable|klaviyo|bloomreach|airship|moengage|clevertap|insider|criteo|the trade desk|appsflyer|adjust|powered by search)\\b"
+  - id: martech_produto
+    motivo: "Produto de martech/adtech/mídia"
+    escopo: descricao
+    padrao: "martech|adtech|advertising technology|media planning|paid media|seo strategist|customer data platform|marketing automation|cross-channel messaging|journey orchestration|customer engagement platform|performance marketing"
+    min_ocorrencias: 2
+  - id: pais_no_titulo
+    motivo: "País fora do plano no título (o rótulo de local engana em vaga remota)"
+    escopo: titulo
+    padrao: "\\((canada|uk|united kingdom|india|toronto|mexico|colombia|argentina|chile|peru)\\b|[-,] (canada|uk|india)$|\\b(canada|toronto)\\b"
+    excecao: "brazil|brasil|latam"
+  - id: clearance_eua
+    motivo: "Exige clearance ou cidadania americana (setor publico dos EUA)"
+    escopo: tudo
+    padrao: "security clearance|ts/sci|top secret|u\\.?s\\.? citizen(?:ship)?|active clearance|public sector.{0,40}(?:washington|dc)|intelligence community"
+  - id: precisa_estar_no_local
+    motivo: "Exige já estar no país (ele está no Brasil)"
+    escopo: descricao
+    padrao: "must (be based|reside|live) in|already (located|based) in|currently (located|based|residing) in"
+    excecao_local: "brazil|brasil|sao paulo|dubai|abu dhabi|uae|emirates|qatar|doha|united states|\\busa\\b|\\bu\\.s\\.|\\bus\\b"
+    excecao: "brazil|brasil|latam|dubai|abu dhabi|uae|qatar|doha|united states|\\busa\\b|\\bu\\.s\\.|\\bus\\b"
+  - id: sem_visto_fora
+    motivo: "Sem patrocínio de visto em país onde ele precisaria"
+    escopo: descricao
+    padrao: "no visa sponsorship|unable to (provide|offer) (visa )?sponsorship|cannot sponsor|not (able|in a position) to sponsor|will not sponsor"
+    so_se_local: "united kingdom|london|canada|singapore|australia|switzerland|japan|\\buk\\b"
+  - id: uk_sem_patrocinio
+    motivo: "Reino Unido sem menção a Skilled Worker/patrocínio"
+    escopo: descricao
+    padrao: ".+"
+    so_se_local: "united kingdom|london|\\buk\\b"
+    excecao_global: "skilled worker|visa sponsor|sponsorship (is )?(available|provided)"
+  - id: idioma
+    motivo: "Exige idioma fluente que ele não tem (alemão, holandês, francês, mandarim, japonês, espanhol fluente)"
+    escopo: descricao
+    padrao: "(fluen\\w*|native|proficien\\w*|business[- ]level)\\s+(in\\s+|level\\s+)?(german|dutch|french|mandarin|japanese|spanish|espanhol|aleman|alemao|frances|arabic|arabe)|proficien\\w+ in [a-z, ]{0,40}\\b(?:arabic|german|french|japanese|mandarin)\\b|\\b(?:german|dutch|french|norwegian|danish|swedish|finnish|spanish|arabic|hebrew|korean|japanese|mandarin|lithuanian) language (?:fluency|skills|proficiency)|fluency in (?:german|dutch|french|norwegian|danish|swedish|finnish|arabic|hebrew|korean|japanese|mandarin|lithuanian)|(?:fluen\\w*|proficien\\w*)[a-z ]{0,20}\\bin\\s+[a-z, ]{0,40}\\bspanish\\b|(german|dutch|french|mandarin|japanese|spanish|espanhol)\\s+(fluency|native|proficiency|is required|required)|(espanhol|spanish) (fluente|fluent)"
+  - id: mba_obrigatorio
+    motivo: "MBA/Mestrado obrigatório (com 'or' alternativa NÃO elimina)"
+    escopo: descricao
+    padrao: "(mba|master'?s( degree)?)\\s+(is\\s+|are\\s+)?(required|mandatory)|(requires?|must (have|hold))\\s+an?\\s+(mba|master'?s)"
+    excecao: "\\bor\\b.{0,60}(years|experience)|(years|experience).{0,60}\\bor\\b"
+    janela: 140
+  - id: anos_baixos
+    motivo: "Banda de 2-4 anos ou menos: calibrada para outra senioridade"
+    escopo: descricao
+    padrao: "\\b[0-4]\\s*(-|–|to)\\s*[2-5]\\+?\\s*years"
+    excecao_global: "\\b(8|9|10|12|15)\\s*(\\+|-|–|to)\\s*\\d*\\s*\\+?\\s*years|\\b(8|9|10|12|15)\\+?\\s*years"
+  - id: analytics_disfarcado
+    motivo: "Vaga de analytics disfarçada (Tableau/Looker/regressão/k-means/A-B como núcleo)"
+    escopo: descricao
+    padrao: "tableau|looker|k-means|regression|a/b test"
+    min_ocorrencias: 3
+  - id: cos_administrativo
+    motivo: "Chief of Staff que é assistência executiva"
+    escopo: descricao
+    so_trilha: [C]
+    padrao: "calendar management|expense reports?|travel (booking|arrangements)|executive assistant|personal assistant|calendar scheduling"
+  - id: nivel_junior
+    motivo: "Título abaixo da faixa (Analyst/Associate/Intern/Junior)"
+    escopo: titulo
+    padrao: "\\b(analyst|analista|associate|intern|estagi\\w*|junior|jr\\.?|trainee|assistente)\\b"
+    excecao: "\\b(senior|staff|principal) (customer|solutions?|implementation)"
+  - id: nivel_diretor
+    motivo: "Director/VP presume P&L próprio e time formal"
+    escopo: titulo
+    padrao: "\\b(director|vp|svp|vice president|diretor\\w*)\\b"
+    excecao: "program director"
+  - id: part_time
+    motivo: "Part-time/freelance horista"
+    escopo: tipo
+    padrao: "part[- ]?time|contract to hire hourly|intern"
