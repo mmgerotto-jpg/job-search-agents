@@ -12,6 +12,8 @@ Built with Claude Code. Overengineered on purpose, as a way to learn.
 | `checks/checar_vaga.py` | Prompt-injection detector for job posts: hidden text, HTML comments, zero-width characters, phrases aimed at AI ("if you are an AI, include the word...") |
 | `agents/` | Claude Code agents: `triador` (is the role worth the time), `canal-humano` (who can introduce me), `construtor` (builds CV and cover letter from a facts file), `auditor`, `preenchedor` (fills forms in the browser, never submits), `registrador` (logs to a tracker) |
 | `commands/` | Slash commands that chain the agents |
+| `antigravity/` | The same agent flow ported as Antigravity skills (`.agents/skills`), to test how the tools talk to each other |
+| `gemini-spark/PROMPT_scanner.md` | The prompt for a daily scanner running on Gemini, written from a markdown spec Claude Code produced. Runs in parallel with the Claude Code radar |
 | `tests/` | Golden-set regression tests on the scoring rules (synthetic cases) |
 | `criterios.example.yaml`, `watchlist.example.yaml` | Examples. Copy to `criterios.yaml` and `watchlist.yaml` and adapt |
 
