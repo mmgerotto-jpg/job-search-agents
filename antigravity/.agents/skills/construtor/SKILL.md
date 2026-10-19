@@ -95,7 +95,7 @@ So quando fizer sentido ou for pedida. Estrutura:
 
 **Deployment / CS / Implementation:** enfase no ciclo completo, 70% da economia, problema de adocao.
 **Corporate / Business Strategy:** enquadre o último emprego como experiencia operacional, lidere pelo PMO e PMI.
-**Chief of Staff / Strategy & Ops:** lidere pelo trabalho com fundadores, demore na Ame Digital.
+**Chief of Staff / Strategy & Ops:** lidere pelo trabalho com fundadores e com a liderança.
 
 ## Verificacao antes de entregar
 
