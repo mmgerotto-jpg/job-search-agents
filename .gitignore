@@ -1,0 +1,22 @@
+__pycache__/
+*.pyc
+.venv/
+# personal data: stays only on your machine
+sistema/fatos.yaml
+fatos.yaml
+sistema/FATOS.md
+criterios.yaml
+watchlist.yaml
+estado.json
+funil.yaml
+perfil_triagem.md
+saida/
+# generated material
+applications/*/*.docx
+applications/*/*.pdf
+applications/*/Auditoria.md
+# real applications (the fictional example and the template stay)
+applications/*
+!applications/_modelo/
+!applications/Acme - Senior Operations Manager/
+Tracker.md

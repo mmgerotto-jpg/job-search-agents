@@ -1,0 +1,11 @@
+# EXAMPLE: companies with a public API (greenhouse, ashby or lever). Add your own.
+empresas:
+- nome: Example Co 1
+  ats: greenhouse
+  slug: example-co-1
+- nome: Example Co 2
+  ats: ashby
+  slug: example-co-2
+- nome: Example Co 3
+  ats: lever
+  slug: example-co-3

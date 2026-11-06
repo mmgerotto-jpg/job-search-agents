@@ -1,0 +1,134 @@
+# fatos.example.yaml — the SINGLE source of the candidate's facts (fictional example).
+# Copy to fatos.yaml and replace with your own. No generator types a fact: all of them import from here (fatos.py).
+# The person, companies and clients below are made up.
+#
+# The fact blocks (the "name" of each one):
+#   identidade   who you are: name, citizenship, contact, languages, education
+#   emprego      company, titles and TIME (YYYY-MM) of each experience
+#   <company>    approved numbers for the company (portfolio, revenue, volume) and what never to say
+#   entregas     what you DELIVERED at each company, as a sentence ready for a resume
+#   anedotas     short work stories (situation, action, result) for letters, interviews and posts
+#   clientes     facts about clients: what can be said, what cannot, and whether they can be named
+#   materiais    format rules (pages, file patterns)
+#   pendencias   facts still to confirm
+
+meta:
+  atualizado: "2026-01-01"
+
+identidade:
+  nome: "Alex Rivera"
+  nome_curriculo: "Alex Rivera"
+  cidadania_en: "Portuguese (EU) citizen"
+  disponibilidade_en: "Free to start immediately"
+  contato:
+    email: "alex.rivera@example.com"
+    telefone: "+351 912 345 678"
+    telefone_ats: "+351 912 345 678"     # hyphen-free version, so an ATS parser does not read it as a ZIP code
+    linkedin: "linkedin.com/in/alexrivera-example"
+  idiomas:
+    linha_en: "Portuguese (native), English (fluent), Spanish (intermediate)"
+    linha_en_padrao: "Portuguese (native), English (fluent)"   # default: without the weakest language, unless the role asks for it
+  formacao:
+    instituicao: "Example University"
+    frase_en: "B.Sc. in Industrial Engineering, 2014"
+
+# Dates to month precision (YYYY-MM): ATS requires it and a background check verifies it.
+emprego:
+  northwind:
+    empresa: "Northwind Analytics"
+    cargos: ["Analyst", "Senior Analyst"]       # chronological order
+    cargo_curriculo: "Senior Analyst"           # canonical title for the resume
+    inicio: "2022-03"
+    fim: "2025-08"
+  contoso:
+    empresa: "Contoso Advisory"
+    empresa_curta: "Contoso"
+    cargos: ["Associate Consultant"]
+    cargo_curriculo: "Associate Consultant"
+    inicio: "2018-06"
+    fim: "2022-02"
+
+# Numbers for the current/most recent job, with the approved wording.
+# The generator uses the ready sentence; the auditor checks any number that appears in the material.
+northwind:
+  carteira: "75 mid-size retail clients"
+  receita_clientes: "above US$20M a month"
+  agentes: "up to 12 per client"
+  formulacao_erp: "each client ran a different ERP"
+
+# What was DELIVERED at each company. The sentence is the approved one: the generator uses it as is.
+# `tempo` inherits from emprego.<company>; `numero` is the hard fact the auditor will check in the material.
+entregas:
+  northwind:
+    - id: "<id>"
+      frase_en: "<approved sentence>"
+      numero: "<number>"
+      tempo: "<YYYY-YYYY>"
+  contoso:
+    - id: operating_model
+      frase_en: "Redesigned the operating model of a 6-store logistics client."
+      numero: "6 stores"
+      tempo: "2019-2020"
+
+# Work anecdotes: a short, true story, in the structure situation, action, result.
+# They go into letters, interview answers and posts. Only what happened counts; absolute dates.
+anedotas:
+  - id: blocked_integration
+    empresa: northwind
+    quando: "2024-05"
+    situacao: "The largest client was left without reports when the ERP vendor delayed the API."
+    acao: "I set up a manual path with the client's team and validated the data before each delivery."
+    resultado: "Back up in 4 weeks and recovered US$80k in the first cycle."
+    usar_em: [letter, interview]
+    pode_citar_cliente: false
+  - id: bi_queue_dashboards
+    empresa: northwind
+    quando: "2024-09"
+    situacao: "The BI queue took 6 weeks for each client dashboard."
+    acao: "I connected an AI assistant to the production database and built the dashboards myself."
+    resultado: "Each dashboard shipped in 1 week and two clients adopted the model."
+    usar_em: [letter, post]
+    pode_citar_cliente: false
+
+# Facts about clients: what can be said in public. Rule: a client name only if `pode_nomear: true`.
+# These are examples; the list does not have to cover the whole portfolio (the example says 75 clients above).
+clientes:
+  - id: retailer_a
+    descricao_publica: "a mid-size grocery chain in Portugal"
+    setor: "retail"
+    porte: "about 60 stores"
+    pode_nomear: false
+    fatos:
+      - "Ran an ERP with no API; the integration was designed with the client's IT team."
+      - "Was the first client to adopt the dashboards on paper."
+    nunca_dizer: ["the client's exact revenue", "the contact's name"]
+  - id: logistics_b
+    descricao_publica: "a regional logistics operator"
+    setor: "logistics"
+    porte: "6 stores and 2 warehouses"
+    pode_nomear: false
+    fatos:
+      - "Operating-model project at Contoso, 2019-2020."
+    nunca_dizer: ["the client's name"]
+
+# Extra numbers the auditor accepts without them being in any value above.
+numeros_extras_permitidos: []
+
+materiais:
+  paginas:
+    resume: 2
+    ats: null      # no limit: the ATS is read by a parser, not a recruiter
+    carta: 1
+  leitura:
+    summary_alvo_palavras: 80
+    summary_max_palavras: 100
+    preambulos_de_bullet: [worked, responsible, helped, was, participated, involved, assisted, supported, contributed, tasked]
+  # Files whose NAME matches these patterns are "materials" (what goes out).
+  padroes_materiais: ["Resume", "Cover_Letter", "Carta", "Email", "CV"]
+
+pendencias:
+  - id: p1
+    texto: "Confirm the final title with the company at exit before using 'Senior Analyst' on a form."
+
+changelog:
+  - {data: "2026-01-01", o_que: "First version of the example."}
