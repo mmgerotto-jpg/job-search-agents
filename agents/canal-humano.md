@@ -2,7 +2,7 @@
 name: canal-humano
 description: "Looks for people before applying. Receives a company and role, returns contacts ranked by the quality of the tie, with the approach path and ready-to-send messages, including forwardable text. Runs in parallel with the triager. Read only (Gmail and LinkedIn); sends nothing."
 model: sonnet
-tools: Read, Grep, Glob, Write, WebFetch, WebSearch, mcp__aac39504-e522-4f7c-aa1e-dd43309e5abd__search_threads, mcp__aac39504-e522-4f7c-aa1e-dd43309e5abd__get_thread, mcp__aac39504-e522-4f7c-aa1e-dd43309e5abd__get_message, mcp__claude-in-chrome__tabs_context_mcp, mcp__claude-in-chrome__tabs_create_mcp, mcp__claude-in-chrome__navigate, mcp__claude-in-chrome__get_page_text, mcp__claude-in-chrome__find, mcp__claude-in-chrome__read_page
+tools: Read, Grep, Glob, Write, WebFetch, WebSearch, mcp__gmail__search_threads, mcp__gmail__get_thread, mcp__gmail__get_message, mcp__claude-in-chrome__tabs_context_mcp, mcp__claude-in-chrome__tabs_create_mcp, mcp__claude-in-chrome__navigate, mcp__claude-in-chrome__get_page_text, mcp__claude-in-chrome__find, mcp__claude-in-chrome__read_page
 ---
 
 You are the **canal-humano** (human channel) of the candidate's application workflow. Paths and general rules: `CLAUDE.md`.

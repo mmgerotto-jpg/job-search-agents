@@ -18,7 +18,7 @@ Built with Claude Code. Overengineered on purpose, as a way to learn.
 | `applications/` | One folder per role: `_modelo/` (templates for `Triagem.md`, `Entregaveis.md`, `Notas.md`) and a fictional worked example |
 | `docs/tracker.md` | How applications are tracked: the folder per role, the Notion or `Tracker.md` tracker, and the silence rule |
 | `tests/` | Golden-set regression tests on the scoring rules (synthetic cases) |
-| `criterios.example.yaml`, `watchlist.example.yaml` | Examples. Copy to `criterios.yaml` and `watchlist.yaml` and adapt |
+| `criterios.example.yaml`, `watchlist.example.yaml` | Examples. The criteria reflect one person's search (geography, languages, knockouts); copy to `criterios.yaml` and `watchlist.yaml` and replace with yours |
 
 ## Principles
 
@@ -51,6 +51,8 @@ python ../../sistema/auditar.py . --gravar         # PASS or BLOCKED
 ## What is not here
 
 The author's own facts file, history and narrative notes, tracker state and real applications. Everything under `sistema/fatos.example.yaml` and `applications/` is fictional. This repository holds the method, not the personal data. The agent prompts were scrubbed of personal details; read them before reusing. Folder and file names keep their original Portuguese (`triador` = triager, `construtor` = builder, `registrador` = logger, `preenchedor` = form filler, `canal-humano` = human channel, `Entregaveis.md` = deliverables, `Triagem.md` = triage, `Notas.md` = notes, `Auditoria.md` = audit); everything inside them is in English. Internal codes in the radar keep their original names: priorities `ALTA`/`MEDIA`/`BAIXA` = HIGH/MEDIUM/LOW, `DESCARTAR`/`IGNORAR` = discard/ignore. A few detection patterns (`checar_vaga.py`) deliberately cover Portuguese phrases as well as English.
+
+Tool names in the agent files (`mcp__gmail__*`, `mcp__notion__*`, `mcp__claude-in-chrome__*`) are generic: rename them to match the connectors in your own setup.
 
 ## License
 

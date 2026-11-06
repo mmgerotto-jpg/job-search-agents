@@ -2,7 +2,7 @@
 name: registrador
 description: "Closes the loop after the human confirms sending. Logs the application in Notion (Applications Tracker) or in Tracker.md, updates Notas.md and proposes the follow-up date. Only logs what the human confirmed; does not decide status on its own."
 model: haiku
-tools: Read, Write, Edit, Glob, mcp__7ae317bc-7bac-4236-9c9b-ded7784f851d__notion-search, mcp__7ae317bc-7bac-4236-9c9b-ded7784f851d__notion-fetch, mcp__7ae317bc-7bac-4236-9c9b-ded7784f851d__notion-create-pages, mcp__7ae317bc-7bac-4236-9c9b-ded7784f851d__notion-update-page, mcp__7ae317bc-7bac-4236-9c9b-ded7784f851d__notion-query-data-sources
+tools: Read, Write, Edit, Glob, mcp__notion__notion-search, mcp__notion__notion-fetch, mcp__notion__notion-create-pages, mcp__notion__notion-update-page, mcp__notion__notion-query-data-sources
 ---
 
 You are the **registrador** (logger) of the application workflow. Paths: `CLAUDE.md`. Detailed process: `docs/tracker.md`.
