@@ -20,6 +20,28 @@ Built with Claude Code. Overengineered on purpose, as a way to learn.
 | `tests/` | Golden-set regression tests on the scoring rules (synthetic cases) |
 | `criterios.example.yaml`, `watchlist.example.yaml` | Examples. The criteria reflect one person's search (geography, languages, knockouts); copy to `criterios.yaml` and `watchlist.yaml` and replace with yours |
 
+## Use only one piece
+
+You do not need the whole flow. Each piece works on its own, with a few adjustments:
+
+**The radar (`radar/`)** runs standalone.
+- Needs: `pip install -r requirements.txt`, then your own `criterios.yaml` and `watchlist.yaml` (copy the `.example` files).
+- Run: `python -m radar.varrer`. It needs no agent, no facts file and no Notion; results land in `saida/`.
+- Optional: the daily routine in `routines/` and the Notion writes are a layer on top, not a requirement.
+
+**The triager (`agents/triador.md`)** works as a single Claude Code agent.
+- Copy it to `.claude/agents/`.
+- It points to files this repo does not ship: `CLAUDE.md` (start from `CLAUDE.example.md`), `contexto/` (your own history, search criteria and notes) and `sistema/FATOS.md` (generated from your facts file). Create short versions of those, or edit the "Read before evaluating" list in the prompt to match what you have.
+- It also calls `sistema/checar_vaga.py`; the same script is in `checks/`.
+
+**The builder (`agents/construtor.md`) and the gate** need the facts layer.
+- Copy `sistema/` and replace `fatos.example.yaml` with your own `fatos.yaml`.
+- The builder writes a `build_<company>.py` that imports `fatos.py`; see `applications/Acme - Senior Operations Manager/` for a working example.
+- `sistema/auditar.py` needs LibreOffice and poppler to count PDF pages.
+- The builder also cites `contexto/` notes (narrative rules, ATS notes); drop those references or write your own.
+
+**The tracker** is independent: see `docs/tracker.md`.
+
 ## Principles
 
 1. **No agent types a fact.** Facts come from one source file and are imported, never retyped. A missing fact is listed as a question for the human.
