@@ -232,8 +232,11 @@ def main(argv=None):
         return 0
     if a.explicar:
         return explicar(c, wl, a.explicar, a.fonte)
-    with open(os.path.join(RAIZ, "funil.yaml"), encoding="utf-8") as f:
-        funil = yaml.safe_load(f) or {}
+    caminho_funil = os.path.join(RAIZ, "funil.yaml")  # optional: companies already in your funnel
+    funil = {}
+    if os.path.exists(caminho_funil):
+        with open(caminho_funil, encoding="utf-8") as f:
+            funil = yaml.safe_load(f) or {}
     estado = ES.carregar()
     rd = rodada(c, wl, funil, estado, a.fonte)
     os.makedirs(SAIDA, exist_ok=True)

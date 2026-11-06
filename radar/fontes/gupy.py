@@ -1,9 +1,9 @@
-"""Gupy: public search by term (employability-portal.gupy.io). One search per term in criterios/fontes."""
+"""Gupy: public search by term (portal.gupy.io). One search per term in criterios/fontes."""
 import urllib.parse
 from ..modelo import Vaga
 from . import json_de
 
-BASE = "https://employability-portal.gupy.io/api/v1/jobs"
+BASE = "https://portal.gupy.io/api/job-search/jobs"
 
 
 def buscar(termos, limite=50, paginas=2):

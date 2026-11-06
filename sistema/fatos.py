@@ -260,6 +260,9 @@ def _caminho(caminho):
 
 
 if __name__ == "__main__":
+    for _s in (sys.stdout, sys.stderr):  # Windows consoles default to cp1252; accents and arrows would crash
+        if hasattr(_s, "reconfigure"):
+            _s.reconfigure(encoding="utf-8")
     if len(sys.argv) > 1:
         v = _caminho(sys.argv[1])
         print(v.bruto() if isinstance(v, Node) else v)
